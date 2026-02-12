@@ -189,9 +189,9 @@ const App = () => {
             <div>
               <h3 className="text-lg font-bold mb-4">Quick Links</h3>
               <ul className="space-y-2 text-blue-100">
-                <li><button onClick={() => setPage('home')} className="hover:text-white transition-colors bg-transparent border-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">Home</button></li>
-                <li><button onClick={() => setPage('products')} className="hover:text-white transition-colors bg-transparent border-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">Products</button></li>
-                <li><button onClick={() => setPage('cart')} className="hover:text-white transition-colors bg-transparent border-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">Cart</button></li>
+                <li><button onClick={() => setPage('home')} className="footer-link hover:text-white transition-colors bg-transparent border-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">Home</button></li>
+                <li><button onClick={() => setPage('products')} className="footer-link hover:text-white transition-colors bg-transparent border-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">Products</button></li>
+                <li><button onClick={() => setPage('cart')} className="footer-link hover:text-white transition-colors bg-transparent border-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">Cart</button></li>
               </ul>
             </div>
 
@@ -199,10 +199,10 @@ const App = () => {
             <div>
               <h3 className="text-lg font-bold mb-4">Company</h3>
               <ul className="space-y-2 text-white">
-                <li><button onClick={() => setPage('about')} className="hover:text-white text-white transition-colors bg-transparent border-none p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">About Us</button></li>
-                <li><a href="#contact" className="hover:text-white text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">Contact</a></li>
-                <li><button onClick={() => setPage('privacy')} className="hover:text-white text-white transition-colors bg-transparent border-none p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">Privacy Policy</button></li>
-                <li><button onClick={() => setPage('terms')} className="hover:text-white text-white transition-colors bg-transparent border-none p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">Terms of Service</button></li>
+                <li><button onClick={() => setPage('about')} className="footer-link hover:text-white text-white transition-colors bg-transparent border-none p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">About Us</button></li>
+                <li><a href="#contact" className="footer-link hover:text-white text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">Contact</a></li>
+                <li><button onClick={() => setPage('privacy')} className="footer-link hover:text-white text-white transition-colors bg-transparent border-none p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">Privacy Policy</button></li>
+                <li><button onClick={() => setPage('terms')} className="footer-link hover:text-white text-white transition-colors bg-transparent border-none p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">Terms of Service</button></li>
               </ul>
             </div>
 
@@ -228,13 +228,13 @@ const App = () => {
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-blue-200">© 2026 AJ International. | All rights reserved.</p>
               <div className="flex gap-10 mt-4 md:mt-0">
-                <a  target='_blank' href="https://www.facebook.com/PKAJIC/" aria-label="Facebook" className="text-blue-200 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">
+                <a  target='_blank' href="https://www.facebook.com/PKAJIC/" aria-label="Facebook" className="footer-link text-blue-200 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">
                   <Facebook className="w-5 h-5" />
                 </a>
-                <a target='_blank' href="www.twitter.com" aria-label="Twitter" className="text-blue-200 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">
+                <a target='_blank' href="www.twitter.com" aria-label="Twitter" className="footer-link text-blue-200 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">
                   <Twitter className="w-5 h-5" />
                 </a>
-                <a  target='_blank' href="https://www.linkedin.com/company/a-j-international-company/" aria-label="LinkedIn" className="text-blue-200 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">
+                <a  target='_blank' href="https://www.linkedin.com/company/a-j-international-company/" aria-label="LinkedIn" className="footer-link text-blue-200 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 rounded">
                   <Linkedin className="w-5 h-5" />
                 </a>
               </div>

@@ -575,6 +575,13 @@ const CartPage = ({ cart, updateQuantity, removeFromCart, cartTotal, setPage }) 
               >
                 Proceed to Checkout
               </button>
+
+              <button
+                onClick={() => setPage('products')}
+                className="w-full mt-3 py-3 bg-white text-blue-600 border border-blue-200 rounded-xl font-semibold hover:bg-blue-50 transition-colors"
+              >
+                Continue Shopping
+              </button>
             </div>
           </div>
         </div>
@@ -588,9 +595,56 @@ const CheckoutPage = ({ cartTotal, setShowSuccess }) => {
   const [formData, setFormData] = useState({
     name: '', email: '', phone: '', address: '', city: ''
   });
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
+
+  const validateField = (field, value) => {
+    const trimmed = value.trim();
+    switch (field) {
+      case 'name':
+        if (!trimmed) return 'Full name is required.';
+        if (trimmed.length < 2) return 'Full name must be at least 2 characters.';
+        return '';
+      case 'phone':
+        if (!trimmed) return 'Phone number is required.';
+        if (!/^[+]?[\d\s()-]{10,15}$/.test(trimmed)) return 'Enter a valid phone number.';
+        return '';
+      case 'email':
+        if (!trimmed) return '';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) return 'Enter a valid email address.';
+        return '';
+      case 'address':
+        if (!trimmed) return 'Address is required.';
+        if (trimmed.length < 8) return 'Address must be at least 8 characters.';
+        return '';
+      case 'city':
+        if (!trimmed) return 'Please select a city.';
+        return '';
+      default:
+        return '';
+    }
+  };
+
+  const handleFieldChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    setErrors((prev) => ({ ...prev, [field]: validateField(field, value) }));
+  };
+
+  const validateAllFields = () => {
+    const nextErrors = {};
+    Object.entries(formData).forEach(([field, value]) => {
+      const error = validateField(field, value);
+      if (error) nextErrors[field] = error;
+    });
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setTouched({ name: true, email: true, phone: true, address: true, city: true });
+    if (!validateAllFields()) return;
     setShowSuccess(true);
   };
 
@@ -611,10 +665,16 @@ const CheckoutPage = ({ cartTotal, setShowSuccess }) => {
                   type="text"
                   required
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-black placeholder-gray-500"
+                  onChange={(e) => handleFieldChange('name', e.target.value)}
+                  onBlur={(e) => handleFieldChange('name', e.target.value)}
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:border-transparent transition-all outline-none text-black placeholder-gray-500 ${
+                    touched.name && errors.name
+                      ? 'border-red-400 focus:ring-red-400'
+                      : 'border-gray-200 focus:ring-blue-500'
+                  }`}
                   placeholder="Dr. Ahmed Khan"
                 />
+                {touched.name && errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
               </div>
 
               <div>
@@ -623,10 +683,16 @@ const CheckoutPage = ({ cartTotal, setShowSuccess }) => {
                   type="tel"
                   required
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-black placeholder-gray-500"
+                  onChange={(e) => handleFieldChange('phone', e.target.value)}
+                  onBlur={(e) => handleFieldChange('phone', e.target.value)}
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:border-transparent transition-all outline-none text-black placeholder-gray-500 ${
+                    touched.phone && errors.phone
+                      ? 'border-red-400 focus:ring-red-400'
+                      : 'border-gray-200 focus:ring-blue-500'
+                  }`}
                   placeholder="03XX-XXXXXXX"
                 />
+                {touched.phone && errors.phone && <p className="mt-1 text-sm text-red-600">{errors.phone}</p>}
               </div>
 
               <div className="md:col-span-2">
@@ -634,10 +700,16 @@ const CheckoutPage = ({ cartTotal, setShowSuccess }) => {
                 <input
                   type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-black placeholder-gray-500"
+                  onChange={(e) => handleFieldChange('email', e.target.value)}
+                  onBlur={(e) => handleFieldChange('email', e.target.value)}
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:border-transparent transition-all outline-none text-black placeholder-gray-500 ${
+                    touched.email && errors.email
+                      ? 'border-red-400 focus:ring-red-400'
+                      : 'border-gray-200 focus:ring-blue-500'
+                  }`}
                   placeholder="doctor@hospital.com"
                 />
+                {touched.email && errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
               </div>
 
               <div className="md:col-span-2">
@@ -645,11 +717,17 @@ const CheckoutPage = ({ cartTotal, setShowSuccess }) => {
                 <textarea
                   required
                   value={formData.address}
-                  onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                  onChange={(e) => handleFieldChange('address', e.target.value)}
+                  onBlur={(e) => handleFieldChange('address', e.target.value)}
                   rows="3"
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none resize-none text-black placeholder-gray-500"
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:border-transparent transition-all outline-none resize-none text-black placeholder-gray-500 ${
+                    touched.address && errors.address
+                      ? 'border-red-400 focus:ring-red-400'
+                      : 'border-gray-200 focus:ring-blue-500'
+                  }`}
                   placeholder="Hospital/Clinic address with street details"
                 />
+                {touched.address && errors.address && <p className="mt-1 text-sm text-red-600">{errors.address}</p>}
               </div>
 
               <div>
@@ -657,8 +735,13 @@ const CheckoutPage = ({ cartTotal, setShowSuccess }) => {
                 <select
                   required
                   value={formData.city}
-                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none text-black"
+                  onChange={(e) => handleFieldChange('city', e.target.value)}
+                  onBlur={(e) => handleFieldChange('city', e.target.value)}
+                  className={`w-full px-4 py-3 bg-gray-50 border rounded-xl focus:ring-2 focus:border-transparent transition-all outline-none text-black ${
+                    touched.city && errors.city
+                      ? 'border-red-400 focus:ring-red-400'
+                      : 'border-gray-200 focus:ring-blue-500'
+                  }`}
                 >
                   <option value="">Select City</option>
                   <option value="karachi">Karachi</option>
@@ -670,6 +753,7 @@ const CheckoutPage = ({ cartTotal, setShowSuccess }) => {
                   <option value="peshawar">Peshawar</option>
                   <option value="quetta">Quetta</option>
                 </select>
+                {touched.city && errors.city && <p className="mt-1 text-sm text-red-600">{errors.city}</p>}
               </div>
             </div>
           </div>
@@ -803,6 +887,12 @@ const SuccessModal = ({ setShowSuccess, setPage, setCart }) => {
     setPage('home');
   };
 
+  const handleContinueShopping = () => {
+    setShowSuccess(false);
+    setCart([]);
+    setPage('products');
+  };
+
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
       <div className="bg-white rounded-3xl p-12 max-w-md w-full shadow-2xl transform animate-scale-in">
@@ -818,13 +908,13 @@ const SuccessModal = ({ setShowSuccess, setPage, setCart }) => {
 
           <div className="space-y-3">
             <button
-              onClick={handleClose}
+              onClick={handleContinueShopping}
               className="w-full py-4 bg-gradient-to-r from-blue-600 to-teal-500 text-white rounded-xl font-semibold hover:shadow-lg hover:shadow-blue-500/50 transform hover:scale-105 transition-all duration-300"
             >
               Continue Shopping
             </button>
             <button
-              onClick={() => setShowSuccess(false)}
+              onClick={handleClose}
               className="w-full py-4 bg-gray-100 text-gray-700 rounded-xl font-semibold hover:bg-gray-200 transition-colors"
             >
               Close
